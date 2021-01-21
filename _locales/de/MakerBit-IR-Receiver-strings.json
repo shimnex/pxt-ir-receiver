@@ -31,7 +31,4 @@
   "makerbit.onIrButton|block": "wenn IR Taste | %button | %action",
   "makerbit.onIrDatagram|block": "wenn IR Datagram empfangen",
   "makerbit.wasIrDataReceived|block": "IR Daten wurden empfangen",
-  "makerbit|block": "MakerBit",
-  "{id:category}Makerbit": "Makerbit",
-  "{id:subcategory}IR Receiver": "IR Empfänger"
 }

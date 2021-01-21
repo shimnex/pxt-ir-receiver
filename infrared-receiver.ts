@@ -1,50 +1,5 @@
 // MakerBit blocks supporting a Keyestudio Infrared Wireless Module Kit
-// (receiver module+remote controller)
-
-const enum IrButton {
-  //% block="any"
-  Any = -1,
-  //% block="▲"
-  Up = 0x62,
-  //% block=" "
-  Unused_2 = -2,
-  //% block="◀"
-  Left = 0x22,
-  //% block="OK"
-  Ok = 0x02,
-  //% block="▶"
-  Right = 0xc2,
-  //% block=" "
-  Unused_3 = -3,
-  //% block="▼"
-  Down = 0xa8,
-  //% block=" "
-  Unused_4 = -4,
-  //% block="1"
-  Number_1 = 0x68,
-  //% block="2"
-  Number_2 = 0x98,
-  //% block="3"
-  Number_3 = 0xb0,
-  //% block="4"
-  Number_4 = 0x30,
-  //% block="5"
-  Number_5 = 0x18,
-  //% block="6"
-  Number_6 = 0x7a,
-  //% block="7"
-  Number_7 = 0x10,
-  //% block="8"
-  Number_8 = 0x38,
-  //% block="9"
-  Number_9 = 0x5a,
-  //% block="*"
-  Star = 0x42,
-  //% block="0"
-  Number_0 = 0x4a,
-  //% block="#"
-  Hash = 0x52,
-}
+// (receiver module)
 
 const enum IrButtonAction {
   //% block="pressed"
@@ -60,9 +15,9 @@ const enum IrProtocol {
   NEC = 1,
 }
 
-//% color=#0fbc11 icon="\u272a" block="MakerBit"
-//% category="MakerBit"
-namespace makerbit {
+//% color=#D919FF icon="\u26a1" block="Infrared"
+//% category="Infrared"
+namespace infrared {
   let irState: IrState;
 
   const MICROBIT_MAKERBIT_IR_NEC = 777;
@@ -248,34 +203,34 @@ namespace makerbit {
     });
   }
 
+  
   /**
    * Do something when a specific button is pressed or released on the remote control.
-   * @param button the button to be checked
+   * @param code the button's number to be checked
    * @param action the trigger action
    * @param handler body code to run when the event is raised
    */
   //% subcategory="IR Receiver"
   //% blockId=makerbit_infrared_on_ir_button
-  //% block="on IR button | %button | %action"
+  //% block="on IR button | %code | %action"
   //% button.fieldEditor="gridpicker"
   //% button.fieldOptions.columns=3
   //% button.fieldOptions.tooltips="false"
   //% weight=50
   export function onIrButton(
-    button: IrButton,
+    code: number | null,
     action: IrButtonAction,
     handler: () => void
   ) {
     control.onEvent(
-      action === IrButtonAction.Pressed
-        ? MICROBIT_MAKERBIT_IR_BUTTON_PRESSED_ID
-        : MICROBIT_MAKERBIT_IR_BUTTON_RELEASED_ID,
-      button === IrButton.Any ? EventBusValue.MICROBIT_EVT_ANY : button,
+      action === IrButtonAction.Pressed ? MICROBIT_MAKERBIT_IR_BUTTON_PRESSED_ID : MICROBIT_MAKERBIT_IR_BUTTON_RELEASED_ID,
+      code == null || code < 0 ? EventBusValue.MICROBIT_EVT_ANY : code,
       () => {
         handler();
       }
     );
   }
+
 
   /**
    * Returns the code of the IR button that was pressed last. Returns -1 (IrButton.Any) if no button has been pressed yet.
@@ -286,7 +241,7 @@ namespace makerbit {
   //% weight=70
   export function irButton(): number {
     if (!irState) {
-      return IrButton.Any;
+      return -1;
     }
     return irState.commandSectionBits >> 8;
   }
@@ -358,9 +313,9 @@ namespace makerbit {
   //% button.fieldOptions.tooltips="false"
   //% block="IR button code %button"
   //% weight=60
-  export function irButtonCode(button: IrButton): number {
-    return button as number;
-  }
+  //export function irButtonCode(button: IrButton): number {
+  //  return button as number;
+  //}
 
   function ir_rec_to16BitHex(value: number): string {
     let hex = "";
