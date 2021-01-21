@@ -10,7 +10,7 @@
         "README.md",
         "infrared-receiver.ts",
         "remote.ts",
-        "_locales/de/MakerBit-IR-Receiver-strings.json"
+        "_locales/de/IR-Receiver-strings.json"
     ],
     "testFiles": [
         "test.ts"
