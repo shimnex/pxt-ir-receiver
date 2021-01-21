@@ -1,6 +1,6 @@
 {
     "name": "IR-Receiver",
-    "version": "1.0.0",
+    "version": "1.5.3",
     "description": "MakeCode extension for remote infrared",
     "license": "MIT",
     "dependencies": {
